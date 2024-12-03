@@ -7,7 +7,7 @@ const actions = ref(actionStore.getActions())
 let isFormHidden = ref(true)
 let actionName = ref('')
 
-function createAction(event) {
+function createAction() {
   actionStore.addAction({ Label: actionName.value })
   actionName.value = ''
   isFormHidden.value = true
