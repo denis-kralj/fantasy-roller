@@ -17,10 +17,10 @@ function setActions(actions: Action[]) {
   localStorage.setItem(MAIN_STORAGE_KEY, stringifiedActions)
 }
 
-function addAction(action: Partial<Action>) {
-  action.Id = guid()
+function addAction(action: Pick<Action, 'Label'>) {
+  const newAction = { Label: action.Label, Id: guid() }
   const actions = getActions()
-  actions.push(action as Action)
+  actions.push(newAction)
   setActions(actions)
 }
 

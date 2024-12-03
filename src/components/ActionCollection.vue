@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import actionStore from '../actionStore'
+import actionStore from '@/actionStore'
 
 const actions = ref(actionStore.getActions())
-
-let isFormHidden = ref(true)
-let actionName = ref('')
+const isFormHidden = ref(true)
+const actionName = ref('')
 
 function createAction() {
   actionStore.addAction({ Label: actionName.value })
@@ -31,5 +30,3 @@ function createAction() {
     </div>
   </div>
 </template>
-
-<style scoped></style>
