@@ -24,7 +24,13 @@ function addAction(action: Pick<Action, 'Label'>) {
   setActions(actions)
 }
 
+function removeAction(actionToDelete: Pick<Action, 'Id'>) {
+  const actions = getActions().filter(a => a.Id !== actionToDelete.Id)
+  setActions(actions)
+}
+
 export default {
   addAction,
   getActions,
+  removeAction
 }
