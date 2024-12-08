@@ -1,8 +1,6 @@
-# Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+name: Deploy Fantasy Roller to Pages
 
 on: 
-  # Runs on pushes targeting the default branch
   push:
     branches: ['main']
 
@@ -12,13 +10,12 @@ permissions:
   pages: write
   id-token: write
 
-# Allow one concurrent deployment
+# If more than one deployment only keep latest
 concurrency:
-  group: 'pages'
+  group: 'fantasy-roller-main-pages-deploy'
   cancel-in-progress: true
 
 jobs:
-  # Single deploy job since we're just deploying
   deploy:
     environment:
       name: github-pages
@@ -40,12 +37,9 @@ jobs:
         run: pnpm install
       - name: Build
         run: pnpm build
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload dist folder
           path: './dist'
       - name: Deploy to GitHub Pages
         id: deployment
