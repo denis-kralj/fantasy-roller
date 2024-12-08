@@ -15,7 +15,7 @@ function createAction() {
 </script>
 
 <template>
-  <div>Actions</div>
+  <h2>Actions</h2>
   <ul>
     <li v-for="action in actions">
       {{ action.Label }}
