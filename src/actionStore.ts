@@ -29,8 +29,21 @@ function removeAction(actionToDelete: Pick<Action, 'Id'>) {
   setActions(actions)
 }
 
+function updateAction(actionToUpdate: Action) {
+  const actions = getActions()
+  const action = actions.find(a => a.Id === actionToUpdate.Id)
+
+  if (!action) {
+    console.warn(`editing action that doesn't exist isn't allowed`)
+    return
+  }
+  action.Label = actionToUpdate.Label
+  setActions(actions)
+}
+
 export default {
   addAction,
   getActions,
-  removeAction
+  removeAction,
+  updateAction
 }
