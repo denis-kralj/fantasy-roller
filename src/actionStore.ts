@@ -31,12 +31,8 @@ function removeAction(actionToDelete: Pick<Action, 'Id'>) {
 
 function updateAction(actionToUpdate: Action) {
   const actions = getActions()
-  const action = actions.find(a => a.Id === actionToUpdate.Id)
+  const action = actions.find(a => a.Id === actionToUpdate.Id)! // we know the element will always be found
 
-  if (!action) {
-    console.warn(`editing action that doesn't exist isn't allowed`)
-    return
-  }
   action.Label = actionToUpdate.Label
   setActions(actions)
 }
