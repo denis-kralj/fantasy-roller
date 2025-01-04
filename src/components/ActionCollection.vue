@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import Action from './Action.vue'
 import actionStore from '@/actionStore'
 
 const actions = ref(actionStore.getActions())
@@ -10,11 +11,10 @@ function createActionButtonClickHandler() {
   actionStore.addAction({ Label: actionName.value })
   actionName.value = ''
   isFormHidden.value = true
-  actions.value = actionStore.getActions()
+  actionsUpdatedEvent()
 }
 
-function removeActionButtonClickHandler(actionId: string) {
-  actionStore.removeAction({ Id: actionId })
+function actionsUpdatedEvent() {
   actions.value = actionStore.getActions()
 }
 </script>
@@ -22,9 +22,8 @@ function removeActionButtonClickHandler(actionId: string) {
 <template>
   <h2>Actions</h2>
   <ul>
-    <li v-for="action in actions">
-      {{ action.Label }}
-      <button @click="removeActionButtonClickHandler(action.Id)">Delete</button>
+    <li v-for="action in actions" :key="action.Id">
+      <Action @actions-updated="actionsUpdatedEvent" :action=action />
     </li>
   </ul>
   <div>
