@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@quasar/extras':
-        specifier: ^1.16.15
-        version: 1.16.15
       quasar:
         specifier: ^2.17.6
         version: 2.17.6
@@ -478,9 +475,6 @@ packages:
 
   '@polka/url@1.0.0-next.28':
     resolution: {integrity: sha512-8LduaNlMZGwdZ6qWrKlfa+2M4gahzFkprZiAt2TF8uS0qQgBizKXpXURqvTJ4WtmupWxaLqjRb2UCTe72mu+Aw==}
-
-  '@quasar/extras@1.16.15':
-    resolution: {integrity: sha512-ZM8rUAagZ3Gm7Thu6DjKdGfkyFBv61RaCeVSIWdve6+q300yN+6aouxttf2RmxCk12RsSqEyzBnIg7BlF1s7MA==}
 
   '@quasar/vite-plugin@1.8.1':
     resolution: {integrity: sha512-uaws342JRToH+6TMJRA4/oxuzzEM8K68y0C1xYlBYaCll/FoS9rIx9kDpuu5bYHA51Y3q7yRGN01EsUaAq9vCA==}
@@ -2591,8 +2585,6 @@ snapshots:
   '@pkgr/core@0.1.1': {}
 
   '@polka/url@1.0.0-next.28': {}
-
-  '@quasar/extras@1.16.15': {}
 
   '@quasar/vite-plugin@1.8.1(@vitejs/plugin-vue@5.2.1(vite@6.0.1(@types/node@22.10.1)(sass-embedded@1.83.1))(vue@3.5.13(typescript@5.6.3)))(quasar@2.17.6)(vite@6.0.1(@types/node@22.10.1)(sass-embedded@1.83.1))(vue@3.5.13(typescript@5.6.3))':
     dependencies:
