@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import Action from './Action.vue'
 import actionStore from '@/actionStore'
+import AddActionDialog from './AddActionDialog.vue';
 
 const actions = ref(actionStore.getActions())
 const isFormHidden = ref(true)
@@ -34,4 +35,5 @@ function actionsUpdatedEvent() {
       <button @click="isFormHidden = true">Close form</button>
     </div>
   </div>
+  <AddActionDialog />
 </template>
