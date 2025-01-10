@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from 'vue'
 import actionStore from '@/actionStore'
 
 const props = defineProps(['action'])
@@ -13,8 +13,7 @@ function removeActionButtonClickHandler() {
     emit('actions-updated')
 }
 function saveActionButtonClickHandler() {
-    props.action.Label = actionName
-    actionStore.updateAction(props.action)
+    actionStore.updateAction({ Label: actionName.value, Id: props.action.Id })
     isEditing.value = false
     emit('actions-updated')
 }
@@ -35,6 +34,6 @@ function saveActionButtonClickHandler() {
 
 <style>
 .label {
-    padding: 10px
+    padding: 10px;
 }
 </style>

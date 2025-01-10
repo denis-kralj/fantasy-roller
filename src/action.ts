@@ -1,4 +1,4 @@
 export type Action = {
-  Id: string
-  Label: string
+    Id: string
+    Label: string
 }
