@@ -21,13 +21,15 @@ function saveActionButtonClickHandler() {
 </script>
 
 <template>
-    <div>
-        <span class="label" v-if="!isEditing">{{ actionName }}</span>
-        <input v-if="isEditing" v-model="actionName" placeholder="Enter your action name" />
-        <button v-if="!isEditing" @click="isEditing = true">Edit</button>
-        <button v-if="isEditing" @click="saveActionButtonClickHandler">Save</button>
-        <button v-if="isEditing" @click="isEditing = false">Cancel</button>
-        <button v-if="!isEditing" @click="removeActionButtonClickHandler">Delete</button>
+    <div v-show="!isEditing">
+        <span class="label" v-show="!isEditing">{{ actionName }}</span>
+        <button @click="isEditing = true">Edit</button>
+        <button @click="removeActionButtonClickHandler">Delete</button>
+    </div>
+    <div v-show="isEditing">
+        <input v-model="actionName" placeholder="Enter your action name" />
+        <button @click="saveActionButtonClickHandler">Save</button>
+        <button @click="isEditing = false">Cancel</button>
     </div>
 </template>
 
