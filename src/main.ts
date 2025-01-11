@@ -10,7 +10,7 @@ import '@quasar/extras/material-icons/material-icons.css'
 const myApp = createApp(App)
 
 myApp.use(Quasar, {
-  plugins: {  }
+    plugins: {},
 })
 
 myApp.mount('#app')

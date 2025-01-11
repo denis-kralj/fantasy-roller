@@ -1,45 +1,38 @@
 # fantasy-roller
 
-This template should help get you started developing with Vue 3 in Vite.
+Fantasy roller allows you to define and roll actions for your Tabletop games (e.g. DnD).
 
-## Recommended IDE Setup
+## Project setup
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+### Tooling Recommendations
 
-## Type Support for `.vue` Imports in TS
+- [VSCode](https://code.visualstudio.com/)
+  - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+  - [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+  - [Vue - Official](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+- [PNPM](https://pnpm.io/installation)
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
+## Working on the project
 
 ```sh
+# install dependencies
 pnpm install
-```
 
-### Compile and Hot-Reload for Development
-
-```sh
+# run the hot-reload dev server
 pnpm dev
-```
 
-### Type-Check, Compile and Minify for Production
-
-```sh
+# type-check, compile and minify for prod
 pnpm build
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+### Pretty and Lint
+
+If you install the recommended plugins in VS Code, all of the linting and formatting will be done automatically for you on file save. Otherwise, you need to run the below commands:
 
 ```sh
-pnpm test:unit
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
+# lint with ESLint
 pnpm lint
+
+# format with Prettier
+pnpm format
 ```

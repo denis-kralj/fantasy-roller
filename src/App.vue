@@ -3,9 +3,9 @@ import ActionCollection from './components/ActionCollection.vue'
 </script>
 
 <template>
-  <main>
-    <ActionCollection />
-  </main>
+    <main>
+        <ActionCollection />
+    </main>
 </template>
 
 <style scoped></style>
