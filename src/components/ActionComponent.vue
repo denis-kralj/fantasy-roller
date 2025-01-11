@@ -13,23 +13,37 @@ function removeActionButtonClickHandler() {
     emit('actions-updated')
 }
 function saveActionButtonClickHandler() {
-    actionStore.updateAction({ Label: actionName.value, Id: props.action.Id })
+    const updatedAction = {
+        Label: actionName.value,
+        Id: props.action.Id,
+    }
+    actionStore.updateAction(updatedAction)
     isEditing.value = false
     emit('actions-updated')
 }
 </script>
 
 <template>
-    <div v-show="!isEditing">
-        <span class="label" v-show="!isEditing">{{ actionName }}</span>
-        <button @click="isEditing = true">Edit</button>
-        <button @click="removeActionButtonClickHandler">Delete</button>
-    </div>
-    <div v-show="isEditing">
-        <input v-model="actionName" placeholder="Enter your action name" />
-        <button @click="saveActionButtonClickHandler">Save</button>
-        <button @click="isEditing = false">Cancel</button>
-    </div>
+    <q-item clickable v-show="!isEditing">
+        <q-item-section>
+            <q-item-label>{{ action.Label }}</q-item-label>
+        </q-item-section>
+        <q-btn @click="isEditing = true" label="Edit" color="primary" />
+        <q-btn @click="removeActionButtonClickHandler" label="Delete" color="negative" />
+    </q-item>
+    <q-item clickable v-show="isEditing">
+        <q-item-section>
+            <q-input
+                filled
+                v-model="actionName"
+                label="Action name"
+                lazy-rules
+                :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+            />
+        </q-item-section>
+        <q-btn @click="saveActionButtonClickHandler" label="Save" color="primary" />
+        <q-btn @click="isEditing = false" label="Cancel" color="negative" />
+    </q-item>
 </template>
 
 <style>
