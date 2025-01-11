@@ -1,8 +1,15 @@
 <script lang="ts" setup>
+import actionStore from '@/actionStore'
 import { ref } from 'vue'
 
-const emit = defineEmits(['action-delete-requested'])
+const props = defineProps<{ actionId: string }>()
+const emit = defineEmits(['actions-updated'])
 const confirm = ref(false)
+
+function removeActionConfirmButtonClicked() {
+    actionStore.removeAction({ Id: props.actionId })
+    emit('actions-updated')
+}
 </script>
 
 <template>
@@ -21,7 +28,7 @@ const confirm = ref(false)
                     label="Delete"
                     color="negative"
                     v-close-popup
-                    @click="emit('action-delete-requested')"
+                    @click="removeActionConfirmButtonClicked"
                 />
             </q-card-actions>
         </q-card>
