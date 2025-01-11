@@ -2,20 +2,35 @@
 import actionStore from '@/actionStore'
 import { ref } from 'vue'
 
+const props = defineProps(['action'])
 const showAddNewDialog = ref(false)
-const actionName = ref('')
+const actionName = ref(props.action?.Label ?? '')
+const actionId = ref(props.action?.Id ?? '')
 const emit = defineEmits(['actions-updated'])
 
+const submitButtonLabel = actionId.value ? 'Save action' : 'Add action'
+const openDialogButtonLabel = actionId.value ? '' : 'New Action'
+const openDialogButtonIcon = actionId.value ? 'edit' : 'add'
+
 function onSubmit(): void {
-    actionStore.addAction({ Label: actionName.value })
-    actionName.value = ''
+    if (actionId.value) {
+        actionStore.updateAction({ Label: actionName.value, Id: actionId.value })
+    } else {
+        actionStore.addAction({ Label: actionName.value })
+        actionName.value = ''
+    }
     showAddNewDialog.value = false
     emit('actions-updated')
 }
 </script>
 
 <template>
-    <q-btn color="secondary" icon="add" label="New Action" @click="showAddNewDialog = true" />
+    <q-btn
+        color="secondary"
+        :icon="openDialogButtonIcon"
+        :label="openDialogButtonLabel"
+        @click="showAddNewDialog = true"
+    />
     <q-dialog
         v-model="showAddNewDialog"
         transition-show="slide-up"
@@ -32,7 +47,7 @@ function onSubmit(): void {
                     lazy-rules
                     :rules="[(val) => (val && val.length > 0) || 'Please type something']"
                 />
-                <q-btn label="Add action" type="submit" color="primary" />
+                <q-btn :label="submitButtonLabel" type="submit" color="primary" />
             </q-form>
         </q-card>
     </q-dialog>
