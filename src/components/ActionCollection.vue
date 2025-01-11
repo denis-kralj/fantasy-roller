@@ -13,10 +13,8 @@ function actionsUpdatedEvent() {
 
 <template>
     <h2>Actions</h2>
-    <div>
-        <q-list bordered separator v-for="action in actions" :key="action.Id">
-            <Action @actions-updated="actionsUpdatedEvent" :action="action" />
-        </q-list>
-    </div>
+    <q-list bordered separator v-for="action in actions" :key="action.Id">
+        <Action @actions-updated="actionsUpdatedEvent" :action="action" />
+    </q-list>
     <AddActionDialog @actions-updated="actionsUpdatedEvent" />
 </template>
