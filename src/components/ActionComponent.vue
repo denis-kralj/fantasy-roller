@@ -1,16 +1,10 @@
 <script setup lang="ts">
-import actionStore from '@/actionStore'
 import AddActionDialog from './AddActionDialog.vue'
 import RemoveActionButton from './RemoveActionButton.vue'
 import type { Action } from '@/action'
 
 const props = defineProps<{ action: Action }>()
 const emit = defineEmits(['actions-updated'])
-
-function removeActionButtonClickHandler() {
-    actionStore.removeAction({ Id: props.action.Id })
-    emit('actions-updated')
-}
 </script>
 
 <template>
@@ -19,7 +13,10 @@ function removeActionButtonClickHandler() {
             <q-item-label>{{ action.Label }}</q-item-label>
         </q-item-section>
         <AddActionDialog @actions-updated="emit('actions-updated')" :action />
-        <RemoveActionButton @action-delete-requested="removeActionButtonClickHandler" />
+        <RemoveActionButton
+            @actions-updated="emit('actions-updated')"
+            :action-id="props.action.Id"
+        />
     </q-item>
 </template>
 
