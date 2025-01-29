@@ -1,12 +1,15 @@
 <script setup lang="ts">
+import type { ActionElement } from '@/action'
 import actionStore from '@/actionStore'
+import { cloneDeep } from '@/helpers'
 import { ref } from 'vue'
+import { v4 as guid } from 'uuid'
 
 const props = defineProps(['action'])
 const showAddNewDialog = ref(false)
 const actionId = ref(props.action?.Id ?? '')
-const actionName = ref(JSON.parse(JSON.stringify(props.action?.Label ?? '')))
-const actionElements = ref(JSON.parse(JSON.stringify(props.action?.Elements ?? [])))
+const actionName = ref(cloneDeep(props.action?.Label ?? ''))
+const actionElements = ref(cloneDeep(props.action?.Elements ?? []))
 const emit = defineEmits(['actions-updated'])
 
 const submitButtonLabel = actionId.value ? 'Save action' : 'Add action'
@@ -30,9 +33,15 @@ function onSubmit(): void {
 }
 
 function onClose(): void {
-    actionElements.value = JSON.parse(JSON.stringify(props.action?.Elements ?? []))
-    actionName.value = JSON.parse(JSON.stringify(props.action?.Label ?? ''))
+    actionElements.value = cloneDeep(props.action?.Elements ?? [])
+    actionName.value = cloneDeep(props.action?.Label ?? '')
     showAddNewDialog.value = false
+}
+
+function handleRemoveClick(id: string): void {
+    actionElements.value = actionElements.value.filter(
+        (element: ActionElement) => element.Id !== id,
+    )
 }
 </script>
 
@@ -60,7 +69,7 @@ function onClose(): void {
                     :rules="[(val) => (val && val.length > 0) || 'Please type something']"
                 />
                 <q-list>
-                    <q-item v-for="(element, index) in actionElements" :key="index">
+                    <q-item v-for="element in actionElements" :key="element.Id">
                         <q-item-section>
                             <q-input
                                 v-model="element.Label"
@@ -82,16 +91,19 @@ function onClose(): void {
                             />
                         </q-item-section>
                         <q-item-section side>
-                            <q-btn icon="delete" @click="actionElements.splice(index, 1)" />
+                            <q-btn icon="delete" @click="handleRemoveClick(element.Id)" />
                         </q-item-section>
                     </q-item>
                 </q-list>
-                <q-btn
-                    color="primary"
-                    icon="add"
-                    label="Add Element Entry"
-                    @click="actionElements.push({ Label: '', Value: '' })"
-                />
+                <div>
+                    <q-btn
+                        color="primary"
+                        icon="add"
+                        label="Add Element Entry"
+                        @click="actionElements.push({ Label: '', Value: '', Id: guid() })"
+                    />
+                </div>
+                <br /><br />
                 <q-btn :label="submitButtonLabel" type="submit" color="primary" />
             </q-form>
         </q-card>
