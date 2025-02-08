@@ -1,11 +1,16 @@
 <script setup lang="ts">
+import type { Action, ActionElement } from '@/action'
 import actionStore from '@/actionStore'
+import { cloneDeep } from '@/helpers'
 import { ref } from 'vue'
+import { v4 as guid } from 'uuid'
 
-const props = defineProps(['action'])
+const props = defineProps<{ action?: Action }>()
+
 const showAddNewDialog = ref(false)
-const actionName = ref(props.action?.Label ?? '')
 const actionId = ref(props.action?.Id ?? '')
+const actionName = ref(props.action?.Label ?? '')
+const actionElements = ref(cloneDeep(props.action?.Elements ?? []))
 const emit = defineEmits(['actions-updated'])
 
 const submitButtonLabel = actionId.value ? 'Save action' : 'Add action'
@@ -14,13 +19,31 @@ const openDialogButtonIcon = actionId.value ? 'edit' : 'add'
 
 function onSubmit(): void {
     if (actionId.value) {
-        actionStore.updateAction({ Label: actionName.value, Id: actionId.value })
+        actionStore.updateAction({
+            Label: actionName.value,
+            Id: actionId.value,
+            Elements: actionElements.value,
+        })
     } else {
-        actionStore.addAction({ Label: actionName.value })
+        actionStore.addAction({ Label: actionName.value, Elements: actionElements.value })
         actionName.value = ''
+        actionElements.value = []
     }
     showAddNewDialog.value = false
     emit('actions-updated')
+}
+
+function onClose(): void {
+    actionElements.value = cloneDeep(props.action?.Elements ?? [])
+    actionName.value = props.action?.Label ?? ''
+    actionId.value = props.action?.Id ?? ''
+    showAddNewDialog.value = false
+}
+
+function handleRemoveClick(id: string): void {
+    actionElements.value = actionElements.value.filter(
+        (element: ActionElement) => element.Id !== id,
+    )
 }
 </script>
 
@@ -38,7 +61,7 @@ function onSubmit(): void {
         maximized
     >
         <q-card>
-            <q-btn color="red" icon="close" label="Close" @click="showAddNewDialog = false" />
+            <q-btn color="red" icon="close" label="Close" @click="onClose" />
             <q-form @submit="onSubmit">
                 <q-input
                     filled
@@ -47,6 +70,42 @@ function onSubmit(): void {
                     lazy-rules
                     :rules="[(val) => (val && val.length > 0) || 'Please type something']"
                 />
+                <q-list>
+                    <q-item v-for="element in actionElements" :key="element.Id">
+                        <q-item-section>
+                            <q-input
+                                v-model="element.Label"
+                                label="Label"
+                                lazy-rules
+                                :rules="[
+                                    (val) => (val && val.length > 0) || 'Please type something',
+                                ]"
+                            />
+                        </q-item-section>
+                        <q-item-section>
+                            <q-input
+                                v-model="element.Value"
+                                label="Value"
+                                lazy-rules
+                                :rules="[
+                                    (val) => (val && val.length > 0) || 'Please type something',
+                                ]"
+                            />
+                        </q-item-section>
+                        <q-item-section side>
+                            <q-btn icon="delete" @click="handleRemoveClick(element.Id)" />
+                        </q-item-section>
+                    </q-item>
+                </q-list>
+                <div>
+                    <q-btn
+                        color="primary"
+                        icon="add"
+                        label="Add Element Entry"
+                        :style="{ marginBottom: '20px' }"
+                        @click="actionElements.push({ Label: '', Value: '', Id: guid() })"
+                    />
+                </div>
                 <q-btn :label="submitButtonLabel" type="submit" color="primary" />
             </q-form>
         </q-card>
