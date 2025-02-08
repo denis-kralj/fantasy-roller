@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import Action from './ActionComponent.vue'
 import actionStore from '@/actionStore'
 import AddActionDialog from './AddActionDialog.vue'
+import ActionComponent from './ActionComponent.vue'
 
 const actions = ref(actionStore.getActions())
 
@@ -14,7 +14,7 @@ function actionsUpdatedEvent() {
 <template>
     <h2>Actions</h2>
     <q-list bordered separator v-for="action in actions" :key="action.Id">
-        <Action @actions-updated="actionsUpdatedEvent" :action="action" />
+        <ActionComponent @actions-updated="actionsUpdatedEvent" :action="action" />
     </q-list>
     <AddActionDialog @actions-updated="actionsUpdatedEvent" />
 </template>

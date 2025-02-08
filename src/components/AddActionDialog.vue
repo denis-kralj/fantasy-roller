@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import type { ActionElement } from '@/action'
+import type { Action, ActionElement } from '@/action'
 import actionStore from '@/actionStore'
 import { cloneDeep } from '@/helpers'
 import { ref } from 'vue'
 import { v4 as guid } from 'uuid'
 
-const props = defineProps(['action'])
+const props = defineProps<{ action?: Action }>()
+
 const showAddNewDialog = ref(false)
 const actionId = ref(props.action?.Id ?? '')
-const actionName = ref(cloneDeep(props.action?.Label ?? ''))
+const actionName = ref(props.action?.Label ?? '')
 const actionElements = ref(cloneDeep(props.action?.Elements ?? []))
 const emit = defineEmits(['actions-updated'])
 
@@ -34,7 +35,8 @@ function onSubmit(): void {
 
 function onClose(): void {
     actionElements.value = cloneDeep(props.action?.Elements ?? [])
-    actionName.value = cloneDeep(props.action?.Label ?? '')
+    actionName.value = props.action?.Label ?? ''
+    actionId.value = props.action?.Id ?? ''
     showAddNewDialog.value = false
 }
 
@@ -100,10 +102,10 @@ function handleRemoveClick(id: string): void {
                         color="primary"
                         icon="add"
                         label="Add Element Entry"
+                        :style="{ marginBottom: '20px' }"
                         @click="actionElements.push({ Label: '', Value: '', Id: guid() })"
                     />
                 </div>
-                <br /><br />
                 <q-btn :label="submitButtonLabel" type="submit" color="primary" />
             </q-form>
         </q-card>

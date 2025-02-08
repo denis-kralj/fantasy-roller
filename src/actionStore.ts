@@ -21,7 +21,7 @@ function addAction(action: Pick<Action, 'Label' | 'Elements'>) {
     const newAction = {
         Label: action.Label,
         Id: guid(),
-        Elements: action.Elements.map((d) => ({ ...d, Id: guid() })),
+        Elements: action.Elements,
     }
     const actions = getActions()
     actions.push(newAction)
@@ -38,7 +38,7 @@ function updateAction(actionToUpdate: Action) {
     const action = actions.find((a) => a.Id === actionToUpdate.Id)! // we know the element will always be found
 
     action.Label = actionToUpdate.Label
-    action.Elements = actionToUpdate.Elements.map((d) => ({ ...d, Id: d.Id ?? guid() }))
+    action.Elements = actionToUpdate.Elements
     setActions(actions)
 }
 
