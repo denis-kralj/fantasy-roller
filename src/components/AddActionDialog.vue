@@ -2,8 +2,9 @@
 import type { Action, ActionElement } from '@/action'
 import actionStore from '@/actionStore'
 import { cloneDeep } from '@/helpers'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { v4 as guid } from 'uuid'
+import { stringMaxLength, stringMinLength } from '@/validators'
 
 const props = defineProps<{ action?: Action }>()
 
@@ -12,6 +13,17 @@ const actionId = ref(props.action?.Id ?? '')
 const actionName = ref(props.action?.Label ?? '')
 const actionElements = ref(cloneDeep(props.action?.Elements ?? []))
 const emit = defineEmits(['actions-updated'])
+const existingActionNames = actionStore.getActions().map((a) => ({ Label: a.Label, Id: a.Id }))
+
+const sameNameWarningMessage = computed(() => {
+    return existingActionNames.some((a) => a.Label === actionName.value && a.Id !== actionId.value)
+        ? `An action with the name '${actionName.value}' is already present`
+        : ''
+})
+
+const hasSameName = computed(() => {
+    return sameNameWarningMessage.value !== ''
+})
 
 const submitButtonLabel = actionId.value ? 'Save action' : 'Add action'
 const openDialogButtonLabel = actionId.value ? '' : 'New Action'
@@ -67,18 +79,32 @@ function handleRemoveClick(id: string): void {
                     filled
                     v-model="actionName"
                     label="Action name"
-                    lazy-rules
-                    :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+                    autofocus
+                    :rules="[
+                        (val) => stringMinLength(val, 1) || 'Action name is required',
+                        (val) => stringMaxLength(val, 48) || 'Action name too long',
+                    ]"
                 />
+                <q-banner
+                    v-show="hasSameName"
+                    dense
+                    rounded
+                    :style="{ margin: '0 5px' }"
+                    inline-actions
+                    class="text-black bg-yellow"
+                >
+                    {{ sameNameWarningMessage }}
+                </q-banner>
                 <q-list>
                     <q-item v-for="element in actionElements" :key="element.Id">
                         <q-item-section>
                             <q-input
                                 v-model="element.Label"
                                 label="Label"
-                                lazy-rules
+                                autofocus
                                 :rules="[
-                                    (val) => (val && val.length > 0) || 'Please type something',
+                                    (val) => stringMinLength(val, 1) || 'Element name is required',
+                                    (val) => stringMaxLength(val, 48) || 'Element name too long',
                                 ]"
                             />
                         </q-item-section>
@@ -86,9 +112,10 @@ function handleRemoveClick(id: string): void {
                             <q-input
                                 v-model="element.Value"
                                 label="Value"
-                                lazy-rules
                                 :rules="[
-                                    (val) => (val && val.length > 0) || 'Please type something',
+                                    // this rule does nothing except allow the same styling on this
+                                    // component as the one rendered right before it (element label)
+                                    () => true || '',
                                 ]"
                             />
                         </q-item-section>
@@ -102,7 +129,7 @@ function handleRemoveClick(id: string): void {
                         color="primary"
                         icon="add"
                         label="Add Element Entry"
-                        :style="{ marginBottom: '20px' }"
+                        :style="{ marginBottom: '20px', marginTop: '10px' }"
                         @click="actionElements.push({ Label: '', Value: '', Id: guid() })"
                     />
                 </div>
