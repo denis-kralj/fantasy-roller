@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import actionStore from '@/actionStore'
+import dataStore from '@/dataStore'
 import ActionDialog from './ActionDialog.vue'
 import ActionComponent from './ActionComponent.vue'
 
-const actions = ref(actionStore.getActions())
+const actions = ref(dataStore.getActions())
 
 function actionsUpdatedEvent() {
-    actions.value = actionStore.getActions()
+    actions.value = dataStore.getActions()
 }
 </script>
 

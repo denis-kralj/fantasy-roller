@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import actionStore from '@/actionStore'
+import dataStore from '@/dataStore'
 import { ref } from 'vue'
 
 const props = defineProps<{ actionId: string }>()
@@ -7,7 +7,7 @@ const emit = defineEmits(['actions-updated'])
 const confirm = ref(false)
 
 function removeActionConfirmButtonClicked() {
-    actionStore.removeAction({ Id: props.actionId })
+    dataStore.removeAction({ Id: props.actionId })
     emit('actions-updated')
 }
 </script>
