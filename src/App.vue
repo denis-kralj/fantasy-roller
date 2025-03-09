@@ -1,10 +1,10 @@
-<script setup lang="ts">
-import ActionCollection from './components/ActionCollection.vue'
-</script>
-
 <template>
+    <nav>
+        <RouterLink to="/"><q-btn color="primary" icon="home" /></RouterLink>
+        <RouterLink to="/manage"><q-btn color="secondary" icon="settings" /></RouterLink>
+    </nav>
     <main>
-        <ActionCollection />
+        <RouterView />
     </main>
 </template>
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Action, ActionElement } from '@/action'
-import actionStore from '@/actionStore'
+import dataStore from '@/dataStore'
 import { cloneDeep } from '@/helpers'
 import { computed, ref } from 'vue'
 import { v4 as guid } from 'uuid'
@@ -13,7 +13,7 @@ const actionId = ref(props.action?.Id ?? '')
 const actionName = ref(props.action?.Label ?? '')
 const actionElements = ref(cloneDeep(props.action?.Elements ?? []))
 const emit = defineEmits(['actions-updated'])
-const existingActionNames = actionStore.getActions().map((a) => ({ Label: a.Label, Id: a.Id }))
+const existingActionNames = dataStore.getActions().map((a) => ({ Label: a.Label, Id: a.Id }))
 
 const sameNameWarningMessage = computed(() => {
     return existingActionNames.some((a) => a.Label === actionName.value && a.Id !== actionId.value)
@@ -31,13 +31,13 @@ const openDialogButtonIcon = actionId.value ? 'edit' : 'add'
 
 function onSubmit(): void {
     if (actionId.value) {
-        actionStore.updateAction({
+        dataStore.updateAction({
             Label: actionName.value,
             Id: actionId.value,
             Elements: actionElements.value,
         })
     } else {
-        actionStore.addAction({ Label: actionName.value, Elements: actionElements.value })
+        dataStore.addAction({ Label: actionName.value, Elements: actionElements.value })
         actionName.value = ''
         actionElements.value = []
     }
