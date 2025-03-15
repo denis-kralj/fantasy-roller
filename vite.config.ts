@@ -18,6 +18,7 @@ export default defineConfig({
         }),
         vueDevTools(),
     ],
+    base: '/fantasy-roller/',
     resolve: {
         alias: {
             '@': fileURLToPath(new URL('./src', import.meta.url)),
