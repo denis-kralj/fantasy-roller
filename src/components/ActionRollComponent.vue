@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, nextTick } from 'vue'
 import dataStore from '@/dataStore'
 import { actionToOutcome } from '@/actionExecutor'
 import type { Action } from '@/action'
@@ -7,12 +7,15 @@ import type { Action } from '@/action'
 const actions = dataStore.getActions()
 
 const outcomes = ref(dataStore.getOutcomes())
+const chatContainer = ref(null)
 
-const handleClick = (action: Action) => {
+const handleClick = async (action: Action) => {
     const outcome = actionToOutcome(action)
     dataStore.addOutcome(outcome)
     outcomes.value = dataStore.getOutcomes() // Refresh outcomes
     console.log(`Outcome stored: ${outcome.Title} (Timestamp: ${outcome.Timestamp})`)
+    await nextTick()
+    scrollToBottom()
 }
 
 const chatMessages = computed(() => {
@@ -25,47 +28,58 @@ const chatMessages = computed(() => {
         }
     })
 })
+
+const scrollToBottom = () => {
+    if (chatContainer.value) {
+        chatContainer.value.scrollTo({
+            top: chatContainer.value.scrollHeight,
+            behavior: 'smooth',
+        })
+    }
+}
+
+onMounted(() => {
+    scrollToBottom()
+})
 </script>
 
 <template>
-    <q-layout view="hHh lpR fFf">
-        <q-drawer show-if-above :persistent="true" :behavior="'desktop'" :style="{ width: '10%' }">
-            <q-list>
-                <q-item
-                    v-for="action in actions"
-                    :key="action.Id"
-                    clickable
-                    v-ripple
-                    @click="handleClick(action)"
-                >
-                    <q-item-section>
-                        <q-item-label>{{ action.Label }}</q-item-label>
-                    </q-item-section>
-                </q-item>
-            </q-list>
-        </q-drawer>
+    <q-drawer show-if-above :persistent="true" :behavior="'desktop'" :width="150">
+        <q-list>
+            <q-item
+                v-for="action in actions"
+                :key="action.Id"
+                clickable
+                v-ripple
+                @click="handleClick(action)"
+            >
+                <q-item-section>
+                    <q-item-label>{{ action.Label }}</q-item-label>
+                </q-item-section>
+            </q-item>
+        </q-list>
+    </q-drawer>
 
-        <q-page-container>
-            <q-page class="q-pa-md">
-                <div>
-                    <div class="chat-container">
-                        <q-chat-message
-                            v-for="message in chatMessages"
-                            :key="message.timestamp"
-                            :text="message.text"
-                            :timestamp="message.timestamp"
-                            :name="message.user"
-                        />
-                    </div>
+    <q-page-container>
+        <q-page class="q-pa-md">
+            <div>
+                <div class="chat-container" ref="chatContainer">
+                    <q-chat-message
+                        v-for="message in chatMessages"
+                        :key="message.timestamp"
+                        :text="message.text"
+                        :timestamp="message.timestamp"
+                        :name="message.user"
+                    />
                 </div>
-            </q-page>
-        </q-page-container>
-    </q-layout>
+            </div>
+        </q-page>
+    </q-page-container>
 </template>
 
 <style scoped>
 .chat-container {
-    max-height: 94vh; /* Adjust as needed */
+    max-height: 90vh; /* TODO: do this better later on */
     overflow-y: auto;
 }
 </style>
