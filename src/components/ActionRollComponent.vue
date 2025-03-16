@@ -64,11 +64,12 @@ onMounted(() => {
         <q-page class="q-pa-md">
             <div>
                 <div class="chat-container" ref="chatContainer">
+                    <!-- TODO: do a relative time here later on -->
                     <q-chat-message
                         v-for="message in chatMessages"
                         :key="message.timestamp"
                         :text="message.text"
-                        :timestamp="message.timestamp"
+                        :stamp="message.timestamp"
                         :name="message.user"
                     />
                 </div>
