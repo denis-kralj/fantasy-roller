@@ -7,7 +7,7 @@ import type { Action } from '@/action'
 const actions = dataStore.getActions()
 
 const outcomes = ref(dataStore.getOutcomes())
-const chatContainer = ref(null)
+const chatContainer = ref<null | HTMLDivElement>(null)
 
 const handleClick = async (action: Action) => {
     const outcome = actionToOutcome(action)
@@ -31,6 +31,7 @@ const chatMessages = computed(() => {
 
 const scrollToBottom = () => {
     if (chatContainer.value) {
+        console.log(JSON.stringify(chatContainer.value))
         chatContainer.value.scrollTo({
             top: chatContainer.value.scrollHeight,
             behavior: 'smooth',
