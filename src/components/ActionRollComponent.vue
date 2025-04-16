@@ -13,7 +13,6 @@ const handleClick = async (action: Action) => {
     const outcome = actionToOutcome(action)
     dataStore.addOutcome(outcome)
     outcomes.value = dataStore.getOutcomes() // Refresh outcomes
-    console.log(`Outcome stored: ${outcome.Title} (Timestamp: ${outcome.Timestamp})`)
     await nextTick()
     scrollToBottom()
 }
@@ -31,7 +30,6 @@ const chatMessages = computed(() => {
 
 const scrollToBottom = () => {
     if (chatContainer.value) {
-        console.log(JSON.stringify(chatContainer.value))
         chatContainer.value.scrollTo({
             top: chatContainer.value.scrollHeight,
             behavior: 'smooth',

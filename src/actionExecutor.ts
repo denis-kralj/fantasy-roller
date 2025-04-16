@@ -1,5 +1,6 @@
 import type { Action } from './action'
 import type { Outcome } from './outcome'
+import { interpret } from './roller/roller'
 
 export function actionToOutcome(action: Action): Outcome {
     const result = executeAction(action)
@@ -19,5 +20,9 @@ export function executeAction(action: Action): Record<string, string> {
 }
 
 function resolveValue(value: string): string {
+    const result = interpret(value)
+    if (result.success) {
+        return `${result.rollResult.result}`
+    }
     return value
 }
