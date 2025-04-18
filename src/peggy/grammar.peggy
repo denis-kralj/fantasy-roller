@@ -82,5 +82,5 @@
   integer
     = digits:[0-9]+ { return parseInt(digits.join(""), 10); }
   
-  _ = [ \t\n\r]* // inline whitespace rule
+  _ = [ \t\n\r]*
   
