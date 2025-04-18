@@ -115,6 +115,30 @@ suite(`testing standard dice rolls with prefix`, () => {
     })
 })
 
+suite(`testing dice sequence in rolls collection`, () => {
+    test.each([
+        ['1d2+1d3+1d4', 'd2', 'd3', 'd4'],
+        ['1d2-1d3+1d4', 'd2', 'd3', 'd4'],
+        ['1d2-1d2-1d3', 'd2', 'd2', 'd3'],
+        ['1d2+1d2-1d3', 'd2', 'd2', 'd3'],
+        ['1d2+1d3-1d4', 'd2', 'd3', 'd4'],
+        ['1d2+1d3-1d4+1d5', 'd2', 'd3', 'd4', 'd5'],
+        ['2d2+2d4', 'd2', 'd2', 'd4', 'd4'],
+        ['2d2-2d4', 'd2', 'd2', 'd4', 'd4'],
+        ['2d2+2d4-2d6', 'd2', 'd2', 'd4', 'd4', 'd6', 'd6'],
+        ['2d2-2d4+2d6', 'd2', 'd2', 'd4', 'd4', 'd6', 'd6'],
+    ])('for expression %s return correct dice sequence', (...args) => {
+        const expression = args[0]
+        const dice = args.slice(1)
+        const result = interpret(expression)
+        expectSuccessful(result)
+        expect(result.rollResult.rolls.length).toBe(dice.length)
+        for (let i = 0; i < dice.length; i++) {
+            expect(result.rollResult.rolls[i].dice).toBe(dice[i])
+        }
+    })
+})
+
 // Further tests use d1 in order to avoid randomness, the tests above are good enough to test it by themselves
 suite(`basic tests for 1 sided dice`, () => {
     test(`for expression 'd1' return number 1`, () => {
@@ -190,19 +214,50 @@ suite(`testing expressions containing dice and constants`, () => {
         })
     }
 
-    // TODO: Add tests for 3 and four elements in an expression
-    //       - test for 3 elements in an expression
-    //       - test for 4 elements in an expression
-    //       - test for different whitespace combinations
-    //       - test for individual roll counts etc
-})
+    for (let i = 1; i < 1000; i++) {
+        const diceCount = Math.floor(Math.random() * 1000) + 1
+        const constant = Math.floor(Math.random() * 1000) + 1
+        const expression = `${diceCount}d1 + ${constant} - ${constant}d1`
+        test(`for expression '${expression}' return ${diceCount + constant - constant}`, () => {
+            const result = interpret(expression)
+            expectSuccessful(result)
+            expect(result.rollResult.result).toBe(diceCount + constant - constant)
+        })
+    }
 
-// TODO: write more negative tests
-//       - test for invalid expressions
-//       - test for invalid dice rolls
-//       - test for invalid dice counts
-//       - test for invalid operations
-//       - test for invalid characters
+    for (let i = 1; i < 1000; i++) {
+        const diceCount = Math.floor(Math.random() * 1000) + 1
+        const constant = Math.floor(Math.random() * 1000) + 1
+        const expression = `${diceCount}d1 + ${diceCount}d1 + ${constant}d1 - ${constant}d1`
+        test(`for expression '${expression}' return ${diceCount + diceCount + constant - constant}`, () => {
+            const result = interpret(expression)
+            expectSuccessful(result)
+            expect(result.rollResult.result).toBe(diceCount + diceCount + constant - constant)
+        })
+    }
+
+    for (let i = 1; i < 1000; i++) {
+        const diceCount = Math.floor(Math.random() * 1000) + 1
+        const constant = Math.floor(Math.random() * 1000) + 1
+        const expression = `${diceCount}d1+ ${diceCount}d1 +                 ${constant}d1     - ${constant}d1`
+        test(`for expression with whitespace '${expression}' return ${diceCount + diceCount + constant - constant}`, () => {
+            const result = interpret(expression)
+            expectSuccessful(result)
+            expect(result.rollResult.result).toBe(diceCount + diceCount + constant - constant)
+        })
+    }
+
+    for (let i = 1; i < 1000; i++) {
+        const diceCount = Math.floor(Math.random() * 1000) + 1
+        const expression = `${diceCount}d1`
+        test(`for expression '${expression}' will hace correct count of dice`, () => {
+            const result = interpret(expression)
+            expectSuccessful(result)
+            expect(result.rollResult.rolls.length).toBe(diceCount)
+            expect(result.rollResult.rolls.every((roll) => roll.dice === 'd1')).toBe(true)
+        })
+    }
+})
 
 test(`for expression 'foo' return error`, () => {
     const result = interpret('foo')
