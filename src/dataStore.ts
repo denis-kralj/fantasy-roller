@@ -29,6 +29,10 @@ function setOutcomes(outcomes: Outcome[]) {
     setLocalStorageData(data)
 }
 
+function clearOutcomes() {
+    setOutcomes([])
+}
+
 function addOutcome(outcome: Outcome) {
     const outcomes = getOutcomes()
     outcomes.push(outcome)
@@ -82,5 +86,5 @@ export default {
     updateAction,
     getOutcomes,
     addOutcome,
-    setOutcomes,
+    clearOutcomes,
 }
