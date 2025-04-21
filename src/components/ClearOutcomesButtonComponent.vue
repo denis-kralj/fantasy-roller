@@ -1,31 +1,26 @@
 <script lang="ts" setup>
 import dataStore from '@/dataStore'
-import { ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref } from 'vue'
 
-const route = useRoute()
 const confirm = ref(false)
-const isRootPage = ref(false)
-watch(
-    () => route.path,
-    (newPath) => {
-        if (newPath === '/') {
-            isRootPage.value = true
-        } else {
-            isRootPage.value = false
-        }
-    },
-)
+
+const emit = defineEmits(['outcomes-updated'])
+
+const clearOutcomes = () => {
+    dataStore.clearOutcomes()
+    confirm.value = false
+    emit('outcomes-updated')
+}
 </script>
 
 <template>
     <q-btn
-        class="q-mt-md"
+        class="floating-top-right"
         color="red"
-        label="Clear Outcomes"
         @click="confirm = true"
         icon="delete"
-        v-if="isRootPage"
+        round
+        unelevated
     />
 
     <q-dialog v-model="confirm" persistent>
@@ -43,10 +38,18 @@ watch(
                     flat
                     label="Clear Roll History"
                     color="primary"
-                    @click="dataStore.clearOutcomes()"
+                    @click="clearOutcomes()"
                     v-close-popup
                 />
             </q-card-actions>
         </q-card>
     </q-dialog>
 </template>
+<style scoped>
+.floating-top-right {
+    position: fixed;
+    top: 48px;
+    right: 18px;
+    z-index: 1000;
+}
+</style>

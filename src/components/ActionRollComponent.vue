@@ -3,6 +3,7 @@ import { ref, computed, onMounted, nextTick } from 'vue'
 import dataStore from '@/dataStore'
 import { actionToOutcome } from '@/actionExecutor'
 import type { Action } from '@/action'
+import ClearOutcomesButtonComponent from './ClearOutcomesButtonComponent.vue'
 
 const actions = dataStore.getActions()
 
@@ -37,6 +38,10 @@ const scrollToBottom = () => {
     }
 }
 
+function outcomesUpdatedEvent() {
+    outcomes.value = dataStore.getOutcomes()
+}
+
 onMounted(() => {
     scrollToBottom()
 })
@@ -58,6 +63,8 @@ onMounted(() => {
             </q-item>
         </q-list>
     </q-drawer>
+
+    <ClearOutcomesButtonComponent @outcomes-updated="outcomesUpdatedEvent" />
 
     <q-page-container>
         <q-page class="q-pa-md">

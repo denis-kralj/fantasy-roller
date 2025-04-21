@@ -23,6 +23,12 @@ pnpm dev
 
 # type-check, compile and minify for prod
 pnpm build
+
+# run tests in watch mode
+pnpm test
+
+# get test coverage report
+pnpm coverage
 ```
 
 ### Pretty and Lint
