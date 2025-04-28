@@ -48,7 +48,13 @@ onMounted(() => {
 </script>
 
 <template>
-    <q-drawer show-if-above :persistent="true" :behavior="'desktop'" :width="150">
+    <q-drawer
+        show-if-above
+        :persistent="true"
+        :behavior="'desktop'"
+        :width="150"
+        :style="{ background: 'var(--color-background)' }"
+    >
         <q-list>
             <q-item
                 v-for="action in actions"
