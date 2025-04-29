@@ -24,7 +24,7 @@ const clearOutcomes = () => {
     />
 
     <q-dialog v-model="confirm" persistent>
-        <q-card>
+        <q-card :style="{ background: 'var(--color-background)' }">
             <q-card-section class="row items-center">
                 <q-avatar icon="delete" color="red" text-color="white" />
                 <span class="q-ml-sm"
