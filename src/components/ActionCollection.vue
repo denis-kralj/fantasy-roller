@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import dataStore from '@/dataStore'
 import ActionDialog from './ActionDialog.vue'
 import ActionComponent from './ActionComponent.vue'
+import ImportExportComponent from './ImportExportComponent.vue'
 
 const actions = ref(dataStore.getActions())
 
@@ -18,5 +19,6 @@ function actionsUpdatedEvent() {
             <ActionComponent @actions-updated="actionsUpdatedEvent" :action="action" />
         </q-list>
         <ActionDialog @actions-updated="actionsUpdatedEvent" />
+        <ImportExportComponent />
     </q-page-container>
 </template>
