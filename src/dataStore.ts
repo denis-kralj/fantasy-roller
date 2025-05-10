@@ -14,7 +14,7 @@ if (localStorage.getItem(MAIN_STORAGE_KEY) === null) {
     localStorage.setItem(MAIN_STORAGE_KEY, JSON.stringify(BASE_DATA))
 }
 
-function setLocalStorageData(data: LocalStorageData) {
+function setLocalStorageData(data: LocalStorageData): void {
     localStorage.setItem(MAIN_STORAGE_KEY, JSON.stringify(data))
 }
 
@@ -23,17 +23,17 @@ function getOutcomes(): Outcome[] {
     return data.Outcomes
 }
 
-function setOutcomes(outcomes: Outcome[]) {
+function setOutcomes(outcomes: Outcome[]): void {
     const data = getLocalStorageData()
     data.Outcomes = outcomes
     setLocalStorageData(data)
 }
 
-function clearOutcomes() {
+function clearOutcomes(): void {
     setOutcomes([])
 }
 
-function addOutcome(outcome: Outcome) {
+function addOutcome(outcome: Outcome): void {
     const outcomes = getOutcomes()
     outcomes.push(outcome)
     setOutcomes(outcomes)
@@ -48,13 +48,13 @@ function getLocalStorageData(): LocalStorageData {
     return JSON.parse(localStorage.getItem(MAIN_STORAGE_KEY) ?? JSON.stringify(BASE_DATA))
 }
 
-function setActions(actions: Action[]) {
+function setActions(actions: Action[]): void {
     const data = getLocalStorageData()
     data.Actions = actions
     setLocalStorageData(data)
 }
 
-function addAction(action: Pick<Action, 'Label' | 'Elements'>) {
+function addAction(action: Pick<Action, 'Label' | 'Elements'>): void {
     const newAction = {
         Label: action.Label,
         Id: guid(),
@@ -65,18 +65,29 @@ function addAction(action: Pick<Action, 'Label' | 'Elements'>) {
     setActions(actions)
 }
 
-function removeAction(actionToDelete: Pick<Action, 'Id'>) {
+function removeAction(actionToDelete: Pick<Action, 'Id'>): void {
     const actions = getActions().filter((a) => a.Id !== actionToDelete.Id)
     setActions(actions)
 }
 
-function updateAction(actionToUpdate: Action) {
+function updateAction(actionToUpdate: Action): void {
     const actions = getActions()
     const action = actions.find((a) => a.Id === actionToUpdate.Id)! // we know the element will always be found
 
     action.Label = actionToUpdate.Label
     action.Elements = actionToUpdate.Elements
     setActions(actions)
+}
+
+export type DataStore = {
+    addAction: (action: Pick<Action, 'Label' | 'Elements'>) => void
+    getActions: () => Action[]
+    removeAction: (actionToDelete: Pick<Action, 'Id'>) => void
+    updateAction: (actionToUpdate: Action) => void
+    getOutcomes: () => Outcome[]
+    addOutcome: (outcome: Outcome) => void
+    clearOutcomes: () => void
+    setActions: (actions: Action[]) => void
 }
 
 export default {
@@ -87,4 +98,5 @@ export default {
     getOutcomes,
     addOutcome,
     clearOutcomes,
-}
+    setActions,
+} satisfies DataStore
