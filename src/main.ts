@@ -4,7 +4,7 @@ import ActionCollection from './components/ActionCollection.vue'
 
 import { createApp } from 'vue'
 import App from './App.vue'
-import { Quasar } from 'quasar'
+import { Notify, Quasar } from 'quasar'
 
 import 'quasar/src/css/index.sass'
 import '@quasar/extras/material-icons/material-icons.css'
@@ -26,7 +26,9 @@ const router = createRouter({
 const myApp = createApp(App).use(router)
 
 myApp.use(Quasar, {
-    plugins: {},
+    plugins: {
+        Notify,
+    },
 })
 
 myApp.mount('#app')
