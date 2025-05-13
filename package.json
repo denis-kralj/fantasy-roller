@@ -39,7 +39,7 @@
     "eslint-plugin-vue": "^10.1.0",
     "jsdom": "^26.1.0",
     "npm-run-all2": "^7.0.2",
-    "peggy": "^5.0.0",
+    "peggy": "^5.0.2",
     "prettier": "^3.5.3",
     "sass-embedded": "^1.88.0",
     "typescript": "^5.8.3",
