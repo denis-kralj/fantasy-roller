@@ -22,7 +22,7 @@ pnpm install
 pnpm dev
 
 # type-check, compile and minify for prod
-pnpm build
+pnpm /build:.*/
 
 # run tests in watch mode
 pnpm test
