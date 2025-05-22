@@ -1,5 +1,5 @@
 import './assets/main.css'
-import { createWebHistory, createRouter } from 'vue-router'
+import { createWebHashHistory, createRouter } from 'vue-router'
 import ActionCollection from './components/ActionCollection.vue'
 
 import { createApp } from 'vue'
@@ -19,7 +19,7 @@ const routes = [
 ]
 
 const router = createRouter({
-    history: createWebHistory(baseUrl),
+    history: createWebHashHistory(baseUrl),
     routes,
 })
 
