@@ -3,7 +3,7 @@ import ActionDialog from './ActionDialog.vue'
 import RemoveActionButton from './RemoveActionButton.vue'
 import type { Action } from '@/action'
 
-const props = defineProps<{ action: Action }>()
+const { action } = defineProps<{ action: Action }>()
 const emit = defineEmits(['actions-updated'])
 </script>
 
@@ -13,10 +13,7 @@ const emit = defineEmits(['actions-updated'])
             <q-item-label>{{ action.Label }}</q-item-label>
         </q-item-section>
         <ActionDialog @actions-updated="emit('actions-updated')" :action />
-        <RemoveActionButton
-            @actions-updated="emit('actions-updated')"
-            :action-id="props.action.Id"
-        />
+        <RemoveActionButton @actions-updated="emit('actions-updated')" :action-id="action.Id" />
     </q-item>
 </template>
 

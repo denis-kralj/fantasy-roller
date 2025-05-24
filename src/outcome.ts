@@ -1,5 +1,7 @@
+import type { InterpretationResult } from './roller/roller'
+
 export type Outcome = {
     Title: string
     Timestamp: number
-    Data: Record<string, string>
+    Data: Record<string, InterpretationResult>
 }

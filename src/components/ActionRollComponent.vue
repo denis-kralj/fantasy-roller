@@ -4,6 +4,7 @@ import dataStore from '@/dataStore'
 import { actionToOutcome } from '@/actionExecutor'
 import type { Action } from '@/action'
 import ClearOutcomesButtonComponent from './ClearOutcomesButtonComponent.vue'
+import RollChatMessage from './RollChatMessage.vue'
 
 const actions = dataStore.getActions()
 
@@ -20,9 +21,8 @@ const handleClick = async (action: Action) => {
 
 const chatMessages = computed(() => {
     return outcomes.value.map((outcome) => {
-        const textArray = Object.entries(outcome.Data).map(([key, value]) => `${key}: ${value}`)
         return {
-            text: textArray,
+            data: outcome.Data,
             timestamp: new Date(outcome.Timestamp).toLocaleString(),
             user: outcome.Title,
         }
@@ -77,12 +77,10 @@ onMounted(() => {
             <div>
                 <div class="chat-container" ref="chatContainer">
                     <!-- TODO: do a relative time here later on -->
-                    <q-chat-message
+                    <RollChatMessage
                         v-for="message in chatMessages"
                         :key="message.timestamp"
-                        :text="message.text"
-                        :stamp="message.timestamp"
-                        :name="message.user"
+                        :message="message"
                     />
                 </div>
             </div>
