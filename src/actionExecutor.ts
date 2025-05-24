@@ -1,6 +1,6 @@
 import type { Action } from './action'
 import type { Outcome } from './outcome'
-import { interpret } from './roller/roller'
+import { interpret, type InterpretationResult } from './roller/roller'
 
 export function actionToOutcome(action: Action): Outcome {
     const result = executeAction(action)
@@ -11,18 +11,10 @@ export function actionToOutcome(action: Action): Outcome {
     }
 }
 
-export function executeAction(action: Action): Record<string, string> {
-    const result: Record<string, string> = {}
+export function executeAction(action: Action): Record<string, InterpretationResult> {
+    const result: Record<string, InterpretationResult> = {}
     for (const element of action.Elements) {
-        result[element.Label] = resolveValue(element.Value)
+        result[element.Label] = interpret(element.Value)
     }
     return result
-}
-
-function resolveValue(value: string): string {
-    const result = interpret(value)
-    if (result.success) {
-        return `${result.rollResult.result}`
-    }
-    return value
 }

@@ -7,11 +7,12 @@ import { v4 as guid } from 'uuid'
 import { stringMaxLength, stringMinLength } from '@/validators'
 
 const props = defineProps<{ action?: Action }>()
+const action = props.action ?? { Id: '', Label: '', Elements: [] }
 
 const showAddNewDialog = ref(false)
-const actionId = ref(props.action?.Id ?? '')
-const actionName = ref(props.action?.Label ?? '')
-const actionElements = ref(cloneDeep(props.action?.Elements ?? []))
+const actionId = ref(action.Id)
+const actionName = ref(action.Label)
+const actionElements = ref(cloneDeep(action.Elements))
 const emit = defineEmits(['actions-updated'])
 const existingActionNames = dataStore.getActions().map((a) => ({ Label: a.Label, Id: a.Id }))
 
@@ -46,9 +47,9 @@ function onSubmit(): void {
 }
 
 function onClose(): void {
-    actionElements.value = cloneDeep(props.action?.Elements ?? [])
-    actionName.value = props.action?.Label ?? ''
-    actionId.value = props.action?.Id ?? ''
+    actionElements.value = cloneDeep(action.Elements)
+    actionName.value = action.Label
+    actionId.value = action.Id
     showAddNewDialog.value = false
 }
 
