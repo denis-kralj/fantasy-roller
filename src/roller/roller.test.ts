@@ -250,7 +250,7 @@ suite(`testing expressions containing dice and constants`, () => {
     for (let i = 1; i < 1000; i++) {
         const diceCount = Math.floor(Math.random() * 1000) + 1
         const expression = `${diceCount}d1`
-        test(`for expression '${expression}' will hace correct count of dice`, () => {
+        test(`for expression '${expression}' will have correct count of dice`, () => {
             const result = interpret(expression)
             expectSuccessful(result)
             expect(result.rollResult.rolls.length).toBe(diceCount)

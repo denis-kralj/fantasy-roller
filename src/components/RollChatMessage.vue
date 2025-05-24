@@ -6,29 +6,32 @@ const { message } = defineProps<{
     message: {
         data: Record<string, InterpretationResult>
         timestamp: string
-        user: string
+        title: string
     }
 }>()
 </script>
 
 <template>
-    <q-chat-message :stamp="message.timestamp" :name="message.user">
-        <template #default>
-            <div v-for="(line, idx) in message.data" :key="idx" style="margin-bottom: 4px">
-                <span>
-                    {{
-                        line.success
-                            ? `${idx}: ${line.rollResult.result}`
-                            : `${idx}: ${line.expression}`
-                    }}
-                    <q-tooltip v-if="line.success">
-                        <RollDetailsTooltip
-                            :rolls="line.rollResult.rolls"
-                            :expression="line.expression"
-                        />
-                    </q-tooltip>
-                </span>
-            </div>
-        </template>
+    <!-- TODO: do a relative time here later on (3 hours ago, 2 weeks ago etc...) -->
+    <q-chat-message :stamp="message.timestamp" :name="message.title">
+        <div
+            v-for="(interpretationResult, label) in message.data"
+            :key="label"
+            style="margin-bottom: 4px"
+        >
+            <span>
+                {{
+                    interpretationResult.success
+                        ? `${label}: ${interpretationResult.rollResult.result}`
+                        : `${label}: ${interpretationResult.expression}`
+                }}
+                <q-tooltip v-if="interpretationResult.success" anchor="top right" self="top left">
+                    <RollDetailsTooltip
+                        :rolls="interpretationResult.rollResult.rolls"
+                        :expression="interpretationResult.expression"
+                    />
+                </q-tooltip>
+            </span>
+        </div>
     </q-chat-message>
 </template>
