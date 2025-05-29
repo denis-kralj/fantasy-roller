@@ -4,13 +4,17 @@ Fantasy roller allows you to define and roll actions for your Tabletop games (e.
 
 ## Project setup
 
-### Tooling Recommendations
+### Mandatory Tools
+
+- [PNPM](https://pnpm.io/installation)
+- [Node.js 22](https://nodejs.org/en)
+
+### Recommended Tools
 
 - [VSCode](https://code.visualstudio.com/)
   - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
   - [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
   - [Vue - Official](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
-- [PNPM](https://pnpm.io/installation)
 
 ## Working on the project
 
