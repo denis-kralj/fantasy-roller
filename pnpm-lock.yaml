@@ -43,8 +43,8 @@ importers:
         specifier: 3.2.3
         version: 3.2.3(vitest@3.2.3(@types/node@24.0.1)(jsdom@26.1.0)(sass-embedded@1.89.2))
       '@vitest/eslint-plugin':
-        specifier: ^1.2.4
-        version: 1.2.4(eslint@9.28.0)(typescript@5.8.3)(vitest@3.2.3(@types/node@24.0.1)(jsdom@26.1.0)(sass-embedded@1.89.2))
+        specifier: ^1.2.5
+        version: 1.2.5(eslint@9.28.0)(typescript@5.8.3)(vitest@3.2.3(@types/node@24.0.1)(jsdom@26.1.0)(sass-embedded@1.89.2))
       '@vue/eslint-config-prettier':
         specifier: ^10.2.0
         version: 10.2.0(eslint@9.28.0)(prettier@3.5.3)
@@ -772,8 +772,8 @@ packages:
       '@vitest/browser':
         optional: true
 
-  '@vitest/eslint-plugin@1.2.4':
-    resolution: {integrity: sha512-4gcw3Kvh1cvwEA1dhPbcwoNmJJXQAaeSiP4UZ8Y9SFdxKuMKrt3moxQ1DLklugjw8S1zhziDp/vPrB3x0UEHKQ==}
+  '@vitest/eslint-plugin@1.2.5':
+    resolution: {integrity: sha512-cfmXz++mkqYpssrKymd7KJumxaZBsfFji2y22QV04kDYKRbiaZ+s4WZL/bzAkcefVKj4KkFctVALHdDZhFhHGg==}
     peerDependencies:
       eslint: '>= 8.57.0'
       typescript: '>= 5.0.0'
@@ -2927,7 +2927,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@vitest/eslint-plugin@1.2.4(eslint@9.28.0)(typescript@5.8.3)(vitest@3.2.3(@types/node@24.0.1)(jsdom@26.1.0)(sass-embedded@1.89.2))':
+  '@vitest/eslint-plugin@1.2.5(eslint@9.28.0)(typescript@5.8.3)(vitest@3.2.3(@types/node@24.0.1)(jsdom@26.1.0)(sass-embedded@1.89.2))':
     dependencies:
       '@typescript-eslint/utils': 8.34.0(eslint@9.28.0)(typescript@5.8.3)
       eslint: 9.28.0
