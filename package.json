@@ -36,7 +36,7 @@
     "@vue/tsconfig": "^0.7.0",
     "eslint": "^9.36.0",
     "eslint-plugin-vue": "^10.5.0",
-    "jsdom": "^26.1.0",
+    "jsdom": "^27.0.0",
     "peggy": "^5.0.6",
     "prettier": "^3.6.2",
     "sass-embedded": "^1.93.2",
