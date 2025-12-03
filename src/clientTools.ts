@@ -20,7 +20,7 @@ function openFileDialog(
     }
     const fileInputOnChangeHandler = (event: Event): void => {
         const target = event.target as HTMLInputElement
-        if (target.files && target.files.length === 1) {
+        if (target.files && target.files.length === 1 && target.files[0]) {
             const reader = new FileReader()
             reader.onload = fileReaderOnLoadHandler
             reader.readAsText(target.files[0])
