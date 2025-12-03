@@ -134,7 +134,7 @@ suite(`testing dice sequence in rolls collection`, () => {
         expectSuccessful(result)
         expect(result.rollResult.rolls.length).toBe(dice.length)
         for (let i = 0; i < dice.length; i++) {
-            expect(result.rollResult.rolls[i].dice).toBe(dice[i])
+            expect(result.rollResult.rolls[i]!.dice).toBe(dice[i])
         }
     })
 })
@@ -145,26 +145,26 @@ suite(`basic tests for 1 sided dice`, () => {
         const result = interpret('d1')
         expectSuccessful(result)
         expect(result.rollResult.result).toBe(1)
-        expect(result.rollResult.rolls[0].result).toBe(1)
-        expect(result.rollResult.rolls[0].dice).toBe('d1')
+        expect(result.rollResult.rolls[0]!.result).toBe(1)
+        expect(result.rollResult.rolls[0]!.dice).toBe('d1')
     })
 
     test(`for expression '1d1' return number 1`, () => {
         const result = interpret('1d1')
         expectSuccessful(result)
         expect(result.rollResult.result).toBe(1)
-        expect(result.rollResult.rolls[0].result).toBe(1)
-        expect(result.rollResult.rolls[0].dice).toBe('d1')
+        expect(result.rollResult.rolls[0]!.result).toBe(1)
+        expect(result.rollResult.rolls[0]!.dice).toBe('d1')
     })
 
     test(`for expression '2d1' return number 2`, () => {
         const result = interpret('2d1')
         expectSuccessful(result)
         expect(result.rollResult.result).toBe(2)
-        expect(result.rollResult.rolls[0].result).toBe(1)
-        expect(result.rollResult.rolls[0].dice).toBe('d1')
-        expect(result.rollResult.rolls[1].result).toBe(1)
-        expect(result.rollResult.rolls[1].dice).toBe('d1')
+        expect(result.rollResult.rolls[0]!.result).toBe(1)
+        expect(result.rollResult.rolls[0]!.dice).toBe('d1')
+        expect(result.rollResult.rolls[1]!.result).toBe(1)
+        expect(result.rollResult.rolls[1]!.dice).toBe('d1')
         expect(result.rollResult.rolls.length).toBe(2)
     })
 })
