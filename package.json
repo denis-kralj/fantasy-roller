@@ -39,7 +39,7 @@
     "jsdom": "^27.2.0",
     "peggy": "^5.0.6",
     "prettier": "^3.7.4",
-    "sass-embedded": "^1.93.3",
+    "sass-embedded": "^1.96.0",
     "typescript": "^5.9.3",
     "vite": "^7.2.6",
     "vite-plugin-vue-devtools": "^8.0.5",
